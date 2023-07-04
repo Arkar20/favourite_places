@@ -1,4 +1,5 @@
 import 'package:favourite_places/store/PlaceProvider.dart';
+import 'package:favourite_places/widgets/ImageInput.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,14 +11,14 @@ class CreatePlace extends ConsumerStatefulWidget {
 }
 
 class _CreatePlaceState extends ConsumerState<CreatePlace> {
-
-  final _textController=TextEditingController();
+  final _textController = TextEditingController();
 
   @override
-  void dispose(){
-     _textController.dispose();
+  void dispose() {
+    _textController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,36 +27,41 @@ class _CreatePlaceState extends ConsumerState<CreatePlace> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-        child: Form(
-            child: Column(
-          children: [
-            TextFormField(
-              controller: _textController,
-              decoration: const InputDecoration(label: Text("Name a place")),
-               style: TextStyle(
-                color:Theme.of(context).colorScheme.onBackground
-               )
-            ),
-            const SizedBox(height: 24,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    final text=_textController.text;
-                    ref.read(placeProvider.notifier).addPlace(text);
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.add_a_photo_outlined),
-                  label: const Text(
+        child: SingleChildScrollView(
+          child: Form(
+              child: Column(
+            children: [
+              ImageInput(),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFormField(
+                  controller: _textController,
+                  decoration: const InputDecoration(label: Text("Name a place")),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground)),
+              const SizedBox(
+                height: 24,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        final text = _textController.text;
+                        ref.read(placeProvider.notifier).addPlace(text);
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.add_a_photo_outlined),
+                      label: const Text(
                         "add",
                         style: TextStyle(fontSize: 24),
-                      )
-                )
-              ],
-            )
-          ],
-        )),
+                      ))
+                ],
+              )
+            ],
+          )),
+        ),
       ),
     );
   }
