@@ -1,3 +1,4 @@
+import 'package:favourite_places/screens/CreatePlace.dart';
 import 'package:flutter/material.dart';
 
 class PlaceList extends StatefulWidget {
@@ -15,7 +16,7 @@ class _PlaceListState extends State<PlaceList> {
         title: const Text('Places'),
         actions: [
           IconButton(onPressed: (){
-            print('object');
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CreatePlace() ));
           }, icon: const Icon(Icons.add))
         ],
       ),
