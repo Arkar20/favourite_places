@@ -1,22 +1,21 @@
-import 'package:favourite_places/models/Place.dart';
 import 'package:favourite_places/screens/CreatePlace.dart';
+import 'package:favourite_places/store/PlaceProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlaceList extends StatefulWidget {
+class PlaceList extends ConsumerStatefulWidget {
   const PlaceList({super.key});
 
   @override
-  State<PlaceList> createState() => _PlaceListState();
+  ConsumerState<PlaceList> createState() => _PlaceListState();
 }
 
-class _PlaceListState extends State<PlaceList> {
+class _PlaceListState extends ConsumerState<PlaceList> {
 
-  List<Place> _places=[
-    Place(id: '1', title: "hello world"),
-    Place(id: '2', title: "hello world")
-  ];
   @override
   Widget build(BuildContext context) {
+
+    final _places=ref.watch(placeProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Places'),
