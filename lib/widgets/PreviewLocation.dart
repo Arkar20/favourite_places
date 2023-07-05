@@ -20,6 +20,18 @@ class PreviewLocation extends StatelessWidget {
       if(loading){
         content=  const Center(child: CircularProgressIndicator());
       }
+
+      if(loading==false && location!=null){
+        content= Column(
+          children: [
+            ListTile(
+              title: Text(location!.latitude.toString()),
+              subtitle: Text(location!.longitude.toString()),
+              textColor: Theme.of(context).colorScheme.onBackground,
+            )
+          ],
+        );
+      }
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
