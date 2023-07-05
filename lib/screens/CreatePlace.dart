@@ -67,6 +67,21 @@ class _CreatePlaceState extends ConsumerState<CreatePlace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  TextButton.icon(onPressed: (){
+
+                  }, icon: const Icon(Icons.place),  label:const Text("Use Current Location")),
+                  const SizedBox(width: 24),
+                   TextButton.icon(onPressed: (){
+
+                  }, icon: const Icon(Icons.image),  label:const Text("Choose Location")),
+                ],
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   ElevatedButton.icon(
                       onPressed: () {
                         final text = _textController.text;
