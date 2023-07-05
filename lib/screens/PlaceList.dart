@@ -1,4 +1,5 @@
 import 'package:favourite_places/screens/CreatePlace.dart';
+import 'package:favourite_places/screens/PlaceDetail.dart';
 import 'package:favourite_places/store/PlaceProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,9 @@ class _PlaceListState extends ConsumerState<PlaceList> {
       body: ListView.builder(
         itemCount: _places.length,
         itemBuilder:  (context, index) => ListTile(
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>PlaceDetail(place: _places[index])));
+          },
           leading:Text(_places[index].title,style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: Theme.of(context).colorScheme.onBackground,
             fontSize: 20

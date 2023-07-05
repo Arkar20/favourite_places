@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ImageInput extends StatefulWidget {
-   const ImageInput({super.key,required this.image,required this.setImage});
+  const ImageInput({super.key, required this.image, required this.setImage});
 
-   final File? image;
+  final File? image;
 
   final Function() setImage;
 
@@ -14,23 +14,18 @@ class ImageInput extends StatefulWidget {
 }
 
 class _ImageInputState extends State<ImageInput> {
-  
-
-  
-
   @override
   Widget build(BuildContext context) {
-
-    Widget content= TextButton.icon(
+    Widget content = TextButton.icon(
         onPressed: () {
           widget.setImage();
         },
         icon: const Icon(Icons.camera),
         label: const Text("Take Camera"));
 
-        if(widget.image!=null){
-          content= Image.file(widget.image!,fit:BoxFit.cover);
-        }
+    if (widget.image != null) {
+      content = Image.file(widget.image!, fit: BoxFit.cover);
+    }
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -42,6 +37,4 @@ class _ImageInputState extends State<ImageInput> {
       child: content,
     );
   }
-
- 
 }
