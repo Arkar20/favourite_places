@@ -38,7 +38,8 @@ dependencies:
   google_fonts: ^5.1.0
   flutter_riverpod: ^2.3.6
   image_picker: ^1.0.0
-  location: ^4.4.0
+  geolocator: ^9.0.2
+  
 
 dev_dependencies:
   flutter_test:

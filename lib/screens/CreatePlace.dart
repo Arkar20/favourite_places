@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:favourite_places/store/PlaceProvider.dart';
 import 'package:favourite_places/widgets/ImageInput.dart';
+import 'package:favourite_places/widgets/PreviewLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CreatePlace extends ConsumerStatefulWidget {
   const CreatePlace({super.key});
@@ -15,11 +17,52 @@ class CreatePlace extends ConsumerStatefulWidget {
 
 class _CreatePlaceState extends ConsumerState<CreatePlace> {
   final _textController = TextEditingController();
-
   File? _image;
+  Position?  currentLocation;
+  bool loading=false;
+
+  Future<Position>  getCurrentLocation() async {
+   bool serviceEnabled;
+  LocationPermission permission;
+
+  // Test if location services are enabled.
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+   
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      
+      return Future.error('Location permissions are denied');
+    }
+  }
+  
+  if (permission == LocationPermission.deniedForever) {
+
+    return Future.error(
+      'Location permissions are permanently denied, we cannot request permissions.');
+  } 
+
+  setState(() {
+    loading=true;
+  });
+
+await Future.delayed(Duration(seconds: 2));
+  final _locationData= await Geolocator.getCurrentPosition();
+
+  setState(() {
+    currentLocation=_locationData;
+    loading=false;
+  });
+
+    return _locationData;
+  }
 
   void takeImage() async {
-// ImagePicker.pickImage();
     final picker = ImagePicker();
     final image = await picker.pickImage(
         source: ImageSource.camera, maxWidth: double.infinity);
@@ -64,16 +107,22 @@ class _CreatePlaceState extends ConsumerState<CreatePlace> {
               const SizedBox(
                 height: 24,
               ),
+              PreviewLocation(loading: loading,location: currentLocation,),
+              const SizedBox(
+                height: 24,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton.icon(onPressed: (){
-
-                  }, icon: const Icon(Icons.place),  label:const Text("Use Current Location")),
+                  TextButton.icon(
+                      onPressed: getCurrentLocation,
+                      icon: const Icon(Icons.place),
+                      label: const Text("Use Current Location")),
                   const SizedBox(width: 24),
-                   TextButton.icon(onPressed: (){
-
-                  }, icon: const Icon(Icons.image),  label:const Text("Choose Location")),
+                  TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.image),
+                      label: const Text("Choose Location")),
                 ],
               ),
               const SizedBox(
